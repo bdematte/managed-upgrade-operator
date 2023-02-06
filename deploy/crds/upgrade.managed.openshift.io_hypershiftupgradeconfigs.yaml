@@ -13,7 +13,7 @@ spec:
     listKind: HypershiftUpgradeConfigList
     plural: hypershiftupgradeconfigs
     shortNames:
-    - hypershiftupgrade
+    - hyperupgrade
     singular: hypershiftupgradeconfig
   scope: Namespaced
   versions:
@@ -39,7 +39,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: HypershiftUpgradeConfig is the Schema for the hypershiftupgradeconfigs API
+        description: UpgradeConfig is the Schema for the upgradeconfigs API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -84,8 +84,8 @@ spec:
                     type: string
                 type: object
               type:
-                description: Type indicates the ClusterUpgrader implementation to
-                  use to perform an upgrade of the cluster
+                description: Type indicates the HypershiftClusterUpgrader implementation
+                  to use to perform an upgrade of the cluster
                 enum:
                 - OSD
                 - ARO

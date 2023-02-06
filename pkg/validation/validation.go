@@ -85,6 +85,11 @@ func (v *validator) IsValidUpgradeConfig(c client.Client, uC *upgradev1alpha1.Up
 		}, err
 	}
 
+	// For HCP, skipping the checks as those are done against HCP resources as part of the upgradeEnd
+	if uC.Spec.ClusterID != "" {
+		return validationPassed, nil
+	}
+
 	ucImage := uC.Spec.Desired.Image
 	ucVersion := uC.Spec.Desired.Version
 	ucChannel := uC.Spec.Desired.Channel

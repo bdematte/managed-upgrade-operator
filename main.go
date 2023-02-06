@@ -55,7 +55,8 @@ import (
 	muocfg "github.com/openshift/managed-upgrade-operator/config"
 	"github.com/openshift/managed-upgrade-operator/controllers/machineconfigpool"
 	"github.com/openshift/managed-upgrade-operator/controllers/nodekeeper"
-	"github.com/openshift/managed-upgrade-operator/controllers/upgradeconfig"
+	//"github.com/openshift/managed-upgrade-operator/controllers/upgradeconfig"
+	"github.com/openshift/managed-upgrade-operator/controllers/hypershiftupgradeconfig"
 	cv "github.com/openshift/managed-upgrade-operator/pkg/clusterversion"
 	"github.com/openshift/managed-upgrade-operator/pkg/collector"
 	"github.com/openshift/managed-upgrade-operator/pkg/configmanager"
@@ -184,21 +185,21 @@ func main() {
 	}
 
 	// Add UpgradeConfig controller to the manager
-	if err = (&upgradeconfig.ReconcileUpgradeConfig{
-		Client:                 mgr.GetClient(),
-		Scheme:                 mgr.GetScheme(),
-		MetricsClientBuilder:   metrics.NewBuilder(),
-		ClusterUpgraderBuilder: cub.NewBuilder(),
-		ValidationBuilder:      validation.NewBuilder(),
-		ConfigManagerBuilder:   configmanager.NewBuilder(),
-		Scheduler:              scheduler.NewScheduler(),
-		CvClientBuilder:        cv.NewBuilder(),
-		EventManagerBuilder:    eventmanager.NewBuilder(),
-		UcMgrBuilder:           ucm.NewBuilder(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "UpgradeConfig")
-		os.Exit(1)
-	}
+	//if err = (&upgradeconfig.ReconcileUpgradeConfig{
+	//	Client:                 mgr.GetClient(),
+	//	Scheme:                 mgr.GetScheme(),
+	//	MetricsClientBuilder:   metrics.NewBuilder(),
+	//	ClusterUpgraderBuilder: cub.NewBuilder(),
+	//	ValidationBuilder:      validation.NewBuilder(),
+	//	ConfigManagerBuilder:   configmanager.NewBuilder(),
+	//	Scheduler:              scheduler.NewScheduler(),
+	//	CvClientBuilder:        cv.NewBuilder(),
+	//	EventManagerBuilder:    eventmanager.NewBuilder(),
+	//	UcMgrBuilder:           ucm.NewBuilder(),
+	//}).SetupWithManager(mgr); err != nil {
+	//	setupLog.Error(err, "unable to create controller", "controller", "UpgradeConfig")
+	//	os.Exit(1)
+	//}
 
 	// Add NodeKeeper controller to the manager
 	if err = (&nodekeeper.ReconcileNodeKeeper{
@@ -221,6 +222,23 @@ func main() {
 		UpgradeConfigManagerBuilder: ucm.NewBuilder(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MachineConfigPool")
+		os.Exit(1)
+	}
+
+	// Add HypershiftUpgradeConfig controller to the manager
+	if err = (&hypershiftupgradeconfig.ReconcileHypershiftUpgradeConfig{
+		Client:                 mgr.GetClient(),
+		Scheme:                 mgr.GetScheme(),
+		MetricsClientBuilder:   metrics.NewBuilder(),
+		ClusterUpgraderBuilder: cub.NewBuilder(),
+		ValidationBuilder:      validation.NewBuilder(),
+		ConfigManagerBuilder:   configmanager.NewBuilder(),
+		Scheduler:              scheduler.NewScheduler(),
+		CvClientBuilder:        cv.NewBuilder(),
+		EventManagerBuilder:    eventmanager.NewBuilder(),
+		UcMgrBuilder:           ucm.NewBuilder(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "HypershiftUpgradeConfig")
 		os.Exit(1)
 	}
 

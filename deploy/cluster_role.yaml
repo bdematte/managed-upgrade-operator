@@ -30,8 +30,10 @@ rules:
   - upgrade.managed.openshift.io
   resources:
   - upgradeconfigs
+  - hypershiftupgradeconfigs
   - upgrade
   - upgradeconfigs/status
+  - hypershiftupgradeconfigs/status
   verbs:
   - create
   - delete

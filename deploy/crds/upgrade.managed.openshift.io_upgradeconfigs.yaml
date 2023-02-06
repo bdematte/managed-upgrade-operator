@@ -70,6 +70,9 @@ spec:
                 description: Specify if scaling up an extra node for capacity reservation
                   before upgrade starts is needed
                 type: boolean
+              clusterId:
+                description: Cluster ID for HCP upgrades
+                type: string
               desired:
                 description: Specify the desired OpenShift release
                 properties:
@@ -89,6 +92,7 @@ spec:
                 enum:
                 - OSD
                 - ARO
+                - HCP
                 type: string
               upgradeAt:
                 description: Specify the upgrade start time

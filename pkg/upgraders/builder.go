@@ -46,6 +46,12 @@ func (cub *clusterUpgraderBuilder) NewClient(c client.Client, cfm configmanager.
 			return nil, err
 		}
 		return cu, nil
+	case upgradev1alpha1.HCP:
+		cu, err := NewHCPUpgrader(c, cfm, mc, nc)
+		if err != nil {
+			return nil, err
+		}
+		return cu, nil
 	default:
 		cu, err := NewOSDUpgrader(c, cfm, mc, nc)
 		if err != nil {

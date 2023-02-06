@@ -15,12 +15,18 @@ const (
 	OSD UpgradeType = "OSD"
 	// ARO is a type of upgrade
 	ARO UpgradeType = "ARO"
+	// HCP is a type of upgrade
+	HCP UpgradeType = "HCP"
 )
 
 // UpgradeConfigSpec defines the desired state of UpgradeConfig and upgrade window and freeze window
 type UpgradeConfigSpec struct {
 	// Specify the desired OpenShift release
 	Desired Update `json:"desired"`
+
+	// +kubebuilder:validation:Optional
+	// Cluster ID for HCP upgrades
+	ClusterID string `json:"clusterId"`
 
 	// Specify the upgrade start time
 	UpgradeAt string `json:"upgradeAt"`
@@ -29,7 +35,7 @@ type UpgradeConfigSpec struct {
 	// The maximum grace period granted to a node whose drain is blocked by a Pod Disruption Budget, before that drain is forced. Measured in minutes. The minimum accepted value is 0 and in this case it will trigger force drain after the expectedNodeDrainTime lapsed.
 	PDBForceDrainTimeout int32 `json:"PDBForceDrainTimeout"`
 
-	// +kubebuilder:validation:Enum={"OSD","ARO"}
+	// +kubebuilder:validation:Enum={"OSD","ARO","HCP"}
 	// Type indicates the ClusterUpgrader implementation to use to perform an upgrade of the cluster
 	Type UpgradeType `json:"type"`
 
@@ -129,6 +135,8 @@ const (
 	SendCompletedNotification UpgradeConditionType = "CompletedNotificationSent"
 	// IsClusterUpgradable is an UpgradeConditionType
 	IsClusterUpgradable UpgradeConditionType = "IsClusterUpgradable"
+	// IsHcpClusterUpgradable is an UpgradeConditionType
+	IsHcpClusterUpgradable UpgradeConditionType = "IsHcpClusterUpgradable"
 )
 
 // UpgradePhase is a Go string type.
